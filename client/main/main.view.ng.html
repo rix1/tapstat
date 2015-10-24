@@ -1,34 +1,21 @@
 <div class="main" layout="row">
-  <span flex=""></span>
-  <div layout="column">
-    <h1>Things</h1>
-    <form class="md-whiteframe-z1" ng-submit="save()" name="form" novalidate layout-padding="">
-      <p>Add a thing</p>
-      <md-input-container>
-        <label>Name</label>
-        <input ng-model="newThing.name" placeholder="Name">
-      </md-input-container>
-      <input class="md-button" type="submit" value="Add">
-    </form>
-    <div layout="row" layout-padding="">
-      <md-input-container flex="65">
-        <label>Search</label>
-        <input type="Search" ng-model="search" placeholder="Search">
-      </md-input-container>
-      <md-select ng-model="orderProperty" flex="35">
-        <md-option value="1">Ascending</md-option>
-        <md-option value="-1">Descending</md-option>
-      </md-select>
+    <div flex>
+        <div ng-repeat="thing in things">
+            <stat-card data="d"></stat-card>
+            <md-divider ng-if="!$last"></md-divider>
+        </div>
+        <div class="fullScreen" layout="row"  layout-align="center center">
+            <div class="center-screen">
+                <div ng-if="isEmpty()">
+                <h1>Tomt!</h1>
+                <p>Det er visst ikke noe statistikk her :/</p>
+                </div>
+                <div class="cornerButton" flex="100" layout="row" layout-align="center center">
+                    <md-button class="md-fab statCard-btn" aria-label="Eat cake" ng-click="addCard()">
+                        <ng-md-icon class="btnIcon" icon="add" style="fill:white"></ng-md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <ul>
-      <li dir-paginate="thing in things | itemsPerPage: perPage" total-items="thingsCount.count" current-page='page'>
-        <p>{{ thing.name }} <button ng-click="remove(thing)">&times;</button></p>
-      </li>
-    </ul>
-    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
-
-    <p>Total number of things: {{thingsCount.count}}</p>
-  </div>
-  <span flex=""></span>
 </div>

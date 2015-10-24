@@ -1,12 +1,13 @@
 'use strict'
 
-Meteor.publish('things', function(options, searchString) {
-  var where = {
-    'name': {
-      '$regex': '.*' + (searchString || '') + '.*',
-      '$options': 'i'
+Meteor.publish('things', function() {
+    return Things.find();
+    //Counts.publish(this, 'numberOfThings', Things.find(), {noReady: true});
+    //return Things.find(where, options);
+});
+
+Meteor.methods({
+    getThingsCount: function () {
+        return Things.find().count();
     }
-  };
-  Counts.publish(this, 'numberOfThings', Things.find(where), {noReady: true});
-  return Things.find(where, options);
 });

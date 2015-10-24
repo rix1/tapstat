@@ -1,0 +1,18 @@
+<div class="statCard-container" layout="row" layout-padding layout-wrap>
+    <div flex="75">
+        <h4 class="md-headline statcard-heading">{{ctrl.data.name}}</h4>
+        <div layout="row">
+            <h1 class="md-display-4 statcard-count">{{ctrl.data.count}}</h1>
+        </div>
+    </div>
+    <div flex="25" layout="column" layout-align="center center">
+        <md-button class="md-fab statCard-btn" aria-label="Eat cake" ng-click="btnClick()">
+            <ng-md-icon class="btnIcon" icon="add" style="fill:white"></ng-md-icon>
+        </md-button>
+    </div>
+
+    <div flex="grow" layout="row" layout-align="space-between center">
+            <p class="md-caption">{{ctrl.data.time | date:'medium'}}</p>
+            <p class="md-caption">Drivhuset, Gløshaugen</p>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="main" layout="row">
+    <span flex=""></span>
+    <div layout="column">
+        <h1>Velkommen {{name}}</h1>
+        <p class="center-text">Vennligst logg inn</p>
+
+        <form class="md-whiteframe-z1" ng-submit="login(user)" name="form" novalidate layout-padding="">
+            <md-input-container>
+                <label>NTNU-brukernavn</label>
+                <input ng-model="user.name" placeholder="Brukernavn">
+            </md-input-container>
+            <md-input-container>
+                <label>NTNU passord</label>
+                <input ng-model="user.password" type="password" placeholder="Passord">
+            </md-input-container>
+            <!--<md-button md-no-ink class="md-primary">Logg inn</md-button>-->
+            <input class="md-button md-primary" type="submit" value="Logg inn">
+
+            <hr/>
+
+            <blaze-template name="loginButtons"></blaze-template>
+
+        </form>
+
+        <!--<ul>-->
+        <!--<li dir-paginate="thing in things | itemsPerPage: perPage" total-items="thingsCount.count" current-page='page'>-->
+        <!--<p>{{ thing.name }} <button ng-click="remove(thing)">&times;</button></p>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>-->
+        <!---->
+        <!--<p>Total number of things: {{thingsCount.count}}</p>-->
+    </div>
+    <span flex=""></span>
+</div>

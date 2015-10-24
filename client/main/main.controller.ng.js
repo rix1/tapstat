@@ -1,45 +1,57 @@
-'use strict'
+'use strict';
 
 angular.module('tapstatApp')
-.controller('MainCtrl', function($scope, $meteor) {
-  $scope.page = 1;
-  $scope.perPage = 3;
-  $scope.sort = {name_sort : 1};
-  $scope.orderProperty = '1';
-  
-  $scope.things = $scope.$meteorCollection(function() {
-    return Things.find({}, {sort:$scope.getReactively('sort')});
-  });
-  $meteor.autorun($scope, function() {
-    $scope.$meteorSubscribe('things', {
-      limit: parseInt($scope.getReactively('perPage')),
-      skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage')),
-      sort: $scope.getReactively('sort')
-    }, $scope.getReactively('search')).then(function() {
-      $scope.thingsCount = $scope.$meteorObject(Counts, 'numberOfThings', false);
-    });
-  });
+    .controller('MainCtrl', function($scope, $meteor) {
 
-  $meteor.session('thingsCounter').bind($scope, 'page');
-    
-  $scope.save = function() {
-    if($scope.form.$valid) {
-      $scope.things.save($scope.newThing);
-      $scope.newThing = undefined;
-    }
-  };
-      
-  $scope.remove = function(thing) {
-    $scope.things.remove(thing);
-  };
-    
-  $scope.pageChanged = function(newPage) {
-    $scope.page = newPage;
-  };
-    
-  $scope.$watch('orderProperty', function() {
-    if($scope.orderProperty) {
-      $scope.sort = {name_sort: parseInt($scope.orderProperty)};
-    }
-  });
-});
+
+        //$scope.$meteorSubscribe('things');
+
+        var totalCount = 0;
+
+        $scope.things = $meteor.collection(Things);
+
+        function updateThingsCount(){
+            Meteor.call('getThingsCount', function (err, count) {
+                totalCount = count;
+            });
+        }
+
+        Things.find().observe({
+            added: updateThingsCount,
+            removed: updateThingsCount
+        });
+
+        //$scope.things = $meteor.collection(function() {
+        //    return Things.find($scope.getReactively('query'), {sort: {createdAt: -1}})
+        //});
+
+        //$scope.things =  $meteor.collection( function() {
+        //    return Things.find({}, { sort: { createdAt: -1 } })
+        //});
+
+        console.log($scope.things);
+
+        $scope.addCard = function () {
+            console.log(totalCount);
+            console.log("legger til kort");
+
+            var navn = "Drikke" + totalCount;
+
+            $scope.things.push( {
+                    text: navn,
+                    createdAt: new Date(),
+                    pos: "Drivhuset, NTNU"
+                }
+            );
+        };
+
+        $scope.isEmpty = function () {
+            return (totalCount < 1);
+        };
+
+        $scope.addData = function (data) {
+            console.log("legger til data...");
+            data.count += 1;
+            // todo:
+        };
+    });
