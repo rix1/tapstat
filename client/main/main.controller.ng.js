@@ -4,49 +4,40 @@ angular.module('tapstatApp')
     .controller('MainCtrl', function($scope, $meteor) {
 
 
-        //$scope.$meteorSubscribe('things');
+        var names = ['Kaffe', 'Cola', 'Dobesøk', 'Redbull', 'YOs'];
+        var localtions = ['P15', 'Drivhuset', 'Realfagskantina', 'Stripa'];
 
-        var totalCount = 0;
+        function getRand(limit) {
+            return Math.floor((Math.random() * limit) + 1);
+        };
 
-        $scope.things = $meteor.collection(Things);
 
-        function updateThingsCount(){
-            Meteor.call('getThingsCount', function (err, count) {
-                totalCount = count;
-            });
+        function generateNew() {
+            return {
+                count: 0,
+                name: names[getRand(names.length)],
+                location: localtions[getRand(localtions.length)],
+                createdAt: new Date()
+            };
         }
 
-        Things.find().observe({
-            added: updateThingsCount,
-            removed: updateThingsCount
+        $scope.temp = $meteor.collection(function(){
+            return Things.find();
         });
 
-        //$scope.things = $meteor.collection(function() {
-        //    return Things.find($scope.getReactively('query'), {sort: {createdAt: -1}})
-        //});
+        $scope.things = [];
 
-        //$scope.things =  $meteor.collection( function() {
-        //    return Things.find({}, { sort: { createdAt: -1 } })
-        //});
-
-        console.log($scope.things);
+        $scope.temp.forEach(function(obj){
+            $scope.things.push(obj);
+        });
 
         $scope.addCard = function () {
-            console.log(totalCount);
-            console.log("legger til kort");
-
-            var navn = "Drikke" + totalCount;
-
-            $scope.things.push( {
-                    text: navn,
-                    createdAt: new Date(),
-                    pos: "Drivhuset, NTNU"
-                }
-            );
+            var object = generateNew();
+            $scope.things.push(object);
         };
 
         $scope.isEmpty = function () {
-            return (totalCount < 1);
+            return false;
         };
 
         $scope.addData = function (data) {

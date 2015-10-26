@@ -1,20 +1,5 @@
 Meteor.startup(function() {
 
-  if(true) {
-    var thing = {
-      text: "Drikke",
-      createdAt: new Date(),
-      pos: "Drivhuset, NTNU"
-    };
-
-    for(var i = 0; i < 10; i++){
-      console.log("inserting to DB");
-      Things.insert({
-        name: thing.text,
-        createdAt: new Date(),
-        pos: thing.pos
-      });
-    }
   //var things = [
   //  'Data on the Wire',
   //  'One Language',
@@ -31,5 +16,4 @@ Meteor.startup(function() {
   //    createdAt: new Date()
   //  });
   //});
-}
 });
